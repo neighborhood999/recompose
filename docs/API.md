@@ -1,31 +1,31 @@
 # API
 
-In these API docs, a **higher-order component** (HOC) refers to a function that accepts a single React component and returns a new React component.
+在這份 API 文件中，一個 **higher-order component** (HOC) 指的是一個 function 接受一個單一的 React component 並回傳一個新的 React component。
 
 ```js
 const EnhancedComponent = hoc(BaseComponent)
 ```
 
-This form makes HOCs (sometimes called **enhancers**) composable:
+這種形式讓 HOC（有時候稱為 **enhancers**）可以被組合：
 
 ```js
 const composedHoc = compose(hoc1, hoc2, hoc3)
 
-// Same as
+// 相同於
 const composedHoc = BaseComponent => hoc1(hoc2(hoc3(BaseComponent)))
 ```
 
-Most Recompose helpers are **functions that return higher-order components**:
+大部分的 Recompose helper 都是 **function，並回傳 higher-order component**：
 
 ```js
 const hoc = mapProps(ownerProps => childProps)
 const EnhancedComponent = hoc(BaseComponent)
 
-// Same as
+// 相同於
 const EnhancedComponent = mapProps(ownerProps => childProps)(BaseComponent)
 ```
 
-Some, like `pure`, are higher-order components themselves:
+有一些像是 `pure` 本身就是 higher-order component：
 
 ```js
 const PureComponent = pure(BaseComponent)
@@ -88,14 +88,14 @@ mapProps(
 ): HigherOrderComponent
 ```
 
-Accepts a function that maps owner props to a new collection of props that are passed to the base component.
+接受一個 function 將所有 props map 到 base component 成為一個新的 props 集合。
 
-`mapProps()` pairs well with functional utility libraries like [lodash/fp](https://github.com/lodash/lodash/tree/npm/fp). For example, Recompose does not come with a `omitProps()` function, but you can easily build one using lodash-fp's `omit()`:
+`mapProps()` 和 functional 函式庫像是 [lodash/fp](https://github.com/lodash/lodash/tree/npm/fp) 可以做很好的搭配。例如，Recompose 沒有一個 `omitProps() function`，但你可以使用 loadsh-fp 的 `omit()` 輕鬆地建立一個：
 
 ```js
 const omitProps = keys => mapProps(props => omit(keys, props))
 
-// Because of currying in lodash-fp, this is the same as
+// 因為 loadsh-fp 的 curry 化，這相同於
 const omitProps = compose(mapProps, omit)
 ```
 
@@ -107,9 +107,9 @@ withProps(
 ): HigherOrderComponent
 ```
 
-Like `mapProps()`, except the newly created props are merged with the owner props.
+除了建立新的 props 被 merge 到 owner props，相似於 `mapProps()`。
 
-Instead of a function, you can also pass a props object directly. In this form, it is similar to `defaultProps()`, except the provided props take precedence over props from the owner.
+你也可以直接傳送一個 props object 而不是 function。在這個形式下，除了被提供的 props 優先於 owner 的 props，它類似於 `defaultProps()`。
 
 
 ### `withPropsOnChange()`
@@ -138,11 +138,11 @@ withHandlers(
 ): HigherOrderComponent
 ```
 
-Takes an object map of handler creators or a factory function. These are higher-order functions that accept a set of props and return a function handler:
+接受 handler creator 或是 factory function 的 object map。這些都是 higher-order function，接受一組 props 並回傳一個 function handler：
 
-This allows the handler to access the current props via closure, without needing to change its signature.
+允許 handler 經由 closure 去存取目前的 props，而不需要去改變它的 signature。
 
-Handlers are passed to the base component as immutable props, whose identities are preserved across renders. This avoids a common pitfall where functional components create handlers inside the body of the function, which results in a new handler on every render and breaks downstream `shouldComponentUpdate()` optimizations that rely on prop equality. This is the main reason to use `withHandlers` to create handlers instead of using `mapProps` or `withProps`, which will create new handlers every time when it get updated.
+Handler 作為 immutable props 被傳入到 base component，它們的身份通過 render 被保留。這避免在一個 functional component 在內部建立 handler 的陷阱，導致每次 render 都會有新的 handler，打破了依賴於 prop 相等的 `shouldComponentUpdate()` 優化。這是主要的理由使用 `withHandlers` 來建立 handler，而不是使用 `mapProps` 或 `withProps` 在每次 update 時建立新的 handler。
 
 Usage example:
 
@@ -250,14 +250,14 @@ withState(
 ): HigherOrderComponent
 ```
 
-Passes two additional props to the base component: a state value, and a function to update that state value. The state updater has the following signature:
+傳送兩個額外的 props 到 base component：一個 state 和一個 function 來更新 state 的值。state updateer 具有以下的 signature：
 
 ```js
 stateUpdater<T>((prevValue: T) => T, ?callback: Function): void
 stateUpdater(newValue: any, ?callback: Function): void
 ```
 
-The first form accepts a function which maps the previous state value to a new state value. You'll likely want to use this state updater along with `withHandlers()` to create specific updater functions. For example, to create an HoC that adds basic counting functionality to a component:
+第一個形式接受一個 function，它 map 先前的 state 成為一個新的 state。你可能想要隨著 `withHandlers()` 使用這個 state updater 來建立具體的 updater function。例如，要建立一個基礎計數功能的 Higher-Order Component：
 
 ```js
 const addCounting = compose(
@@ -270,11 +270,11 @@ const addCounting = compose(
 )
 ```
 
-The second form accepts a single value, which is used as the new state.
+第二個形式接受一個單一的值，作為新的 state。
 
-Both forms accept an optional second parameter, a callback function that will be executed once `setState()` is completed and the component is re-rendered.
+兩種形式都接受可選的第二個參數，一旦 `setState()` 完成且 component 重新 render 將會執行一個 callback function。
 
-An initial state value is required. It can be either the state value itself, or a function that returns an initial state given the initial props.
+初始的 state 是必須的。它可以是 state 值本身，或是回傳一個 function 給定初始 props 的 state。
 
 ### `withStateHandlers()`
 
