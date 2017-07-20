@@ -121,9 +121,9 @@ withPropsOnChange(
 ): HigherOrderComponent
 ```
 
-Like `withProps()`, except the new props are only created when one of the owner props specified by `shouldMapOrKeys` changes. This helps ensure that expensive computations inside `createProps()` are only executed when necessary.
+類似 `withProps()`，當其中一個 owner prop 透過 `shouldMapOrKeys` 被指定時，僅建立新的 prop。這可以確保不必要的昂貴計算，當必要時才會在內部執行 `createProps()`。
 
-Instead of an array of prop keys, the first parameter can also be a function that returns a boolean, given the current props and the next props. This allows you to customize when `createProps()` should be called.
+除了一個 prop keys 的陣列，第一個參數也可以是一個回傳布林值的 function，給定目前的 props 和 next props。當 `createProps()` 應該被呼叫時，允許你自訂 props。
 
 ### `withHandlers()`
 
@@ -144,7 +144,7 @@ withHandlers(
 
 Handler 作為 immutable props 被傳入到 base component，它們的身份通過 render 被保留。這避免在一個 functional component 在內部建立 handler 的陷阱，導致每次 render 都會有新的 handler，打破了依賴於 prop 相等的 `shouldComponentUpdate()` 優化。這是主要的理由使用 `withHandlers` 來建立 handler，而不是使用 `mapProps` 或 `withProps` 在每次 update 時建立新的 handler。
 
-Usage example:
+使用範例：
 
 ```js
 const enhance = compose(
@@ -177,9 +177,9 @@ defaultProps(
 ): HigherOrderComponent
 ```
 
-Specifies props to be passed by default to the base component. Similar to `withProps()`, except the props from the owner take precedence over props provided to the HoC.
+指定預設情況下傳送給 base component 的 props。類似於 `withProps()`，除了 owner props 優先於被提供的 props。
 
-Although it has a similar effect, using the `defaultProps()` HoC is *not* the same as setting the static `defaultProps` property directly on the component.
+雖然它有類似的效果，使用 `defaultProps()` HoC *不* 等同於在 component 上直接設定 static `defaultProps` 屬性。
 
 
 ### `renameProp()`
@@ -191,7 +191,7 @@ renameProp(
 ): HigherOrderComponent
 ```
 
-Renames a single prop.
+重新命名一個 prop。
 
 ### `renameProps()`
 
@@ -201,7 +201,7 @@ renameProps(
 ): HigherOrderComponent
 ```
 
-Renames multiple props, using a map of old prop names to new prop names.
+重新命名多個 prop，使用一個 map 將舊的 prop 名稱更新為新的 prop 名稱。
 
 ### `flattenProp()`
 
@@ -211,7 +211,7 @@ flattenProp(
 ): HigherOrderComponent
 ```
 
-Flattens a prop so that its fields are spread out into the props object.
+扁平化一個 prop，所以它的欄位會被展開（spread）到 props object。
 
 ```js
 const enhance = compose(
@@ -223,13 +223,13 @@ const enhance = compose(
 )
 const Abc = enhance(BaseComponent)
 
-// Base component receives props: { a: 'a', b: 'b', c: 'c', object: { a: 'a', b: 'b' } }
+// Base component 接收到的 props： { a: 'a', b: 'b', c: 'c', object: { a: 'a', b: 'b' } }
 ```
 
-An example use case for `flattenProp()` is when receiving fragment data from Relay. Relay fragments are passed as an object of props, which you often want flattened out into its constituent fields:
+另一個使用範例是當 `flattenProp()` 從 Relay 接收 fragment data。Relay fragment 被作為一個 props object 傳遞，你經常需要扁平化成它的組成欄位：
 
 ```js
-// The `post` prop is an object with title, author, and content fields
+// The `post` prop 是一個 object，有 title、author 和 content 欄位
 const enhance = flattenProp('post')
 const Post = enhance(({ title, content, author }) =>
   <article>
@@ -288,13 +288,12 @@ withStateHandlers(
 
 ```
 
-Passes state object properties and immutable updater functions
-in a form of `(...payload: any[]) => Object` to the base component.
+傳送 state object 屬性和 `(...payload: any[]) => Object` 形式的 immutable updater function 到 base component。
 
-Every state updater function accepts state, props and payload and must return a new state or undefined.
-Returning undefined does not cause a component rerender.
+每個 state updater function 接受 state、props 和 payload 並必須回傳一個新的 state 或是 undefined。
+回傳 undefined component 不會 render 出來。
 
-Example:
+範例：
 
 ```js
   const Counter = withStateHandlers(
@@ -333,9 +332,9 @@ withReducer<S, A>(
 ): HigherOrderComponent
 ```
 
-Similar to `withState()`, but state updates are applied using a reducer function. A reducer is a function that receives a state and an action, and returns a new state.
+類似於 `withState()`，但是使用 reducer function 來更新 state。一個 reducer 是一個 function，接受一個 state 和一個 action，並回傳一個新的 state。
 
-Passes two additional props to the base component: a state value, and a dispatch method. The dispatch method sends an action to the reducer, and the new state is applied.
+傳送兩個額外的 prop 到 base component：一個 state 的值和一個 dispatch 方法。dispatch 方法傳送一個 action 到 reducer 並回傳計算後的新 state。
 
 ### `branch()`
 
@@ -347,7 +346,7 @@ branch(
 ): HigherOrderComponent
 ```
 
-Accepts a test function and two higher-order components. The test function is passed the props from the owner. If it returns true, the `left` higher-order component is applied to `BaseComponent`; otherwise, the `right` higher-order component is applied. If the `right` is not supplied, it will by default render the wrapped component.
+接受一個 test function 和兩個 higher-order component。test function 從 owner 傳送 props。 如果回傳 true，`left` higher-order component 會被 apply 到 `BaseComponent`；反之是 `right` higher-order component。如果沒有提供 `right`，它將預設為被 wrap 的 component。
 
 ### `renderComponent()`
 
@@ -357,21 +356,19 @@ renderComponent(
 ): HigherOrderComponent
 ```
 
-Takes a component and returns a higher-order component version of that component.
+得到一個 component 並回傳一個該 component 的 higher-order 版本 component。
 
-This is useful in combination with another helper that expects a higher-order component, like `branch()`:
+這和另一個需要 higher-order component 的 helper 結合非常的有用，像是 `branch()`：
 
 ```js
-// `isLoading()` is a function that returns whether or not the component
-// is in a loading state
+// `isLoading()` 是一個 function，回傳 component 的 state 是否為 loading
 const spinnerWhileLoading = isLoading =>
   branch(
     isLoading,
-    renderComponent(Spinner) // `Spinner` is a React component
+    renderComponent(Spinner) // `Spinner` 是一個 React component
   )
 
-// Now use the `spinnerWhileLoading()` helper to add a loading spinner to any
-// base component
+// 現在使用 `spinnerWhileLoading()` helper 來新增一個 loading spinner 到任何的 base component
 const enhance = spinnerWhileLoading(
   props => !(props.title && props.author && props.content)
 )
@@ -390,20 +387,19 @@ const Post = enhance(({ title, author, content }) =>
 renderNothing: HigherOrderComponent
 ```
 
-A higher-order component that always renders `null`.
+一個 higher-order component 總是回傳 `null`。
 
-This is useful in combination with another helper that expects a higher-order component, like `branch()`:
+這對於結合其他的 higher-order component 非常有用，例如 `branch()`：
 
 ```js
-// `hasNoData()` is a function that returns true if the component has
-// no data
+// `hasNoData()` 是一個 function，如果 component 沒有資料回傳 true
 const hideIfNoData = hasNoData =>
   branch(
     hasNoData,
     renderNothing
   )
 
-// Now use the `hideIfNoData()` helper to hide any base component
+// 現在使用 `hideIfNoData()` helper 來隱藏任何的 base component
 const enhance = hideIfNoData(
   props => !(props.title && props.author && props.content)
 )
@@ -424,8 +420,7 @@ shouldUpdate(
 ): HigherOrderComponent
 ```
 
-Higher-order component version of [`shouldComponentUpdate()`](https://facebook.github.io/react/docs/react-component.html#shouldcomponentupdate). The test function accepts both the current props and the next props.
-
+Higher-order component 版本的 [`shouldComponentUpdate()`](https://facebook.github.io/react/docs/react-component.html#shouldcomponentupdate)。test function 接受 current props 和 next props 兩者。
 
 ### `pure()`
 
@@ -433,7 +428,7 @@ Higher-order component version of [`shouldComponentUpdate()`](https://facebook.g
 pure: HigherOrderComponent
 ```
 
-Prevents the component from updating unless a prop has changed. Uses `shallowEqual()` to test for changes.
+防止 component 更新，除非 prop 被改變。利用 `shallowEqual()` 來測試 prop 的改變。
 
 ### `onlyUpdateForKeys()`
 
@@ -443,19 +438,18 @@ onlyUpdateForKeys(
 ): HigherOrderComponent
 ```
 
-Prevents the component from updating unless a prop corresponding to one of the given keys has updated. Uses `shallowEqual()` to test for changes.
+防止 component 更新，除非指定的 key 所對應的 prop 被更新。使用 `shallowEqual()` 來測試改變。
 
-This is a much better optimization than the popular approach of using PureRenderMixin, `shouldPureComponentUpdate()`, or Recompose's own `pure()` helper, because those tools compare *every* prop, whereas `onlyUpdateForKeys()` only cares about the props that you specify.
+這對於常見使用的 PureRenderMixin、`shouldPureComponentUpdate()` 或者是 Recompose 本身的 `pure()` helper 方法有更好的優化，因為這些 tool 比較*每個* prop，而 `onlyUpdateForKeys()` 只關心所指定的 prop。
 
-Example:
+範例：
 
 ```js
 /**
- * If the owner passes unnecessary props (say, an array of comments), it will
- * not lead to wasted render cycles.
+ * 如果 owner 傳送不必要的 props（例如：一個 comment 的陣列），
+ * 它不會導致 render 生命週期的浪費。
  *
- * Goes well with destructuring because it's clear which props the component
- * actually cares about.
+ * 這是很好的解構，因為很清楚該 component 實際所關心的 props。
  */
 const enhance = onlyUpdateForKeys(['title', 'content', 'author'])
 const Post = enhance(({ title, content, author }) =>
@@ -473,9 +467,9 @@ const Post = enhance(({ title, content, author }) =>
 onlyUpdateForPropTypes: HigherOrderComponent
 ```
 
-Works like `onlyUpdateForKeys()`, but prop keys are inferred from the `propTypes` of the base component. Useful in conjunction with `setPropTypes()`.
+與 `onlyUpdateForKeys()` 工作方式一樣，但是從 base component 的 `propTypes` 來推斷 prop key。與 `setPropTypes()` 結合非常有用。
 
-If the base component does not have any `propTypes`, the component will never receive any updates. This probably isn't the expected behavior, so a warning is printed to the console.
+如果 base component 沒有任何的 `propTypes`，component 將不會接收到任何的更新。這可能會有不是預期的行為，所以會在 console 出現警告。
 
 ```js
 const enhance = compose(
@@ -505,7 +499,7 @@ withContext(
 ): HigherOrderComponent
 ```
 
-Provides context to the component's children. `childContextTypes` is an object of React prop types. `getChildContext()` is a function that returns the child context. Use along with `getContext()`.
+提供 context 到 component 的 children。`childContextTypes` 是一個 React prop 類型的 object。 `getChildContext()` 是一個 function，回傳 child 的 context。與 `getContext()` 一起使用。
 
 ### `getContext()`
 
@@ -515,7 +509,7 @@ getContext(
 ): HigherOrderComponent
 ```
 
-Gets values from context and passes them along as props. Use along with `withContext()`.
+從 context 取得值並作為 props 傳送。與 `withContext()` 一起使用。
 
 ### `lifecycle()`
 
@@ -525,9 +519,9 @@ lifecycle(
 ): HigherOrderComponent
 ```
 
-A higher-order component version of [`React.Component()`](https://facebook.github.io/react/docs/react-api.html#react.component). It supports the entire `Component` API, except the `render()` method, which is implemented by default (and overridden if specified; an error will be logged to the console). You should use this helper as an escape hatch, in case you need to access component lifecycle methods.
+一個 [`React.Component()`](https://facebook.github.io/react/docs/react-api.html#react.component) 版本的 higher-order component。它支援完整的 `Component` API，除了 `render()` 方法，透過 default 來被實作（如果被指定 override 的話，錯誤將會被 log 在 console）。在你需要存取 lifecycle 方法的情況下，你應該使用這個 helper 作為一個方案。
 
-Any state changes made in a lifecycle method, by using `setState`, will be propagated to the wrapped component as props.
+透過 `setState` 任何 state 可以在 lifecycle 方法做改變，將 state 作為 props 被 wrap 到 component 被傳遞。
 
 ### `toClass()`
 
@@ -535,13 +529,13 @@ Any state changes made in a lifecycle method, by using `setState`, will be propa
 toClass: HigherOrderComponent
 ```
 
-Takes a function component and wraps it in a class. This can be used as a fallback for libraries that need to add a ref to a component, like Relay.
+將一個 function component wrap 到 class。這可以被 library 作為一個 fallback 需要 ref 一個 component，像是 Relay。
 
-If the base component is already a class, it returns the given component.
+如果 base component 已經是 class，它回傳給定的 component。
 
 ## Static property helpers
 
-These functions look like higher-order component helpers — they are curried and component-last. However, rather than returning a new component, they mutate the base component by setting or overriding a static property.
+這些 function 看起來像 higher-order component helpers — 這些 component 最後被 curry。然而，不是回傳一個新 component，這些 helper 透過設定或是 override 一個 static 屬性來 mutate base component。
 
 ### `setStatic()`
 
@@ -552,7 +546,7 @@ setStatic(
 ): HigherOrderComponent
 ```
 
-Assigns a value to a static property on the base component.
+在 base component 分配一個靜態屬性的值。
 
 ### `setPropTypes()`
 
@@ -562,7 +556,7 @@ setPropTypes(
 ): HigherOrderComponent
 ```
 
-Assigns to the `propTypes` property on the base component.
+在 base component 分配 `propTypes` 屬性。
 
 ### `setDisplayName()`
 
@@ -572,11 +566,11 @@ setDisplayName(
 ): HigherOrderComponent
 ```
 
-Assigns to the `displayName` property on the base component.
+在 base component 分配 `displayName` 屬性。
 
 ## Utilities
 
-Recompose also includes some additional helpers that aren't higher-order components, but are still useful.
+Recompose 也包含一些額外的 helpers，它們不是 higher-order component，但是依然非常有用。
 
 ### `compose()`
 
@@ -584,7 +578,7 @@ Recompose also includes some additional helpers that aren't higher-order compone
 compose(...functions: Array<Function>): Function
 ```
 
-Use to compose multiple higher-order components into a single higher-order component. This works exactly like the function of the same name in Redux, or lodash's `flowRight()`.
+compose 將多個 higher-order component 組合為單一的 higher-order component。這與 Redux 中的 compose 功能完全一樣，或是 lodash 的 `flowRight()`。
 
 ### `getDisplayName()`
 
@@ -594,7 +588,7 @@ getDisplayName(
 ): string
 ```
 
-Returns the display name of a React component. Falls back to `'Component'`.
+回傳 React component 的名稱。
 
 ### `wrapDisplayName()`
 
@@ -605,7 +599,7 @@ wrapDisplayName(
 ): string
 ```
 
-Returns a wrapped version of a React component's display name. For instance, if the display name of `component` is `'Post'`, and `wrapperName` is `'mapProps'`, the return value is `'mapProps(Post)'`. Most Recompose higher-order components use `wrapDisplayName()`.
+回傳一個包裝版本名稱的 React component。例如，如果 `component` 的名稱是 `'Post'`，且 `wrapperName` 是 `'mapProps'`，回傳的值是 `'mapProps(Post)'`。大部分的 Recompose higher-order-component 都使用 `wrapDisplayName()`。
 
 ### `shallowEqual()`
 
@@ -613,7 +607,7 @@ Returns a wrapped version of a React component's display name. For instance, if 
 shallowEqual(a: Object, b: Object): boolean
 ```
 
-Returns true if objects are shallowly equal.
+回傳 object 的 shallow equal 的布林值。
 
 ### `isClassComponent()`
 
@@ -621,7 +615,7 @@ Returns true if objects are shallowly equal.
 isClassComponent(value: any): boolean
 ```
 
-Returns true if the given value is a React component class.
+給定的值是否為 React component class，回傳布林值。
 
 ### `createEagerElement()`
 
@@ -633,7 +627,7 @@ createEagerElement(
 ): ReactElement
 ```
 
-React elements are lazily evaluated. But when a higher-order component renders a functional component, the laziness doesn't have any real benefit. `createEagerElement()` is a replacement for `React.createElement()` that checks if the given component is referentially transparent. If so, rather than returning a React element, it calls the functional component with the given props and returns its output.
+React 元素是惰性求值的。但是當一個 higher-order component render 一個 functional component，惰性求值沒有實質的益處。`createEagerElement()` 是一個 `React.createElement()` 的替代，確認給定的 component 是參考透明的。如果是這樣的話，不回傳一個 React 元素，它呼叫 functional component 與給定的 props 並回傳它的 output。
 
 ### `createEagerFactory()`
 
@@ -646,7 +640,7 @@ createEagerFactory(
 ) => ReactElement
 ```
 
-The factory form of `createEagerElement()`. Given a component, it returns a [factory](https://facebook.github.io/react/docs/react-api.html#createfactory).
+`createEagerElement()` factory 的 形式，給定一個 component，它回傳一個 [factory](https://facebook.github.io/react/docs/react-api.html#createfactory)。
 
 ### `createSink()`
 
@@ -654,7 +648,7 @@ The factory form of `createEagerElement()`. Given a component, it returns a [fac
 createSink(callback: (props: Object) => void): ReactClass
 ```
 
-Creates a component that renders nothing (null) but calls a callback when receiving new props.
+建立一個不 render 任何東西的 component，但是當接收到新的 props 呼叫一個 callback。
 
 ### `componentFromProp()`
 
@@ -662,9 +656,9 @@ Creates a component that renders nothing (null) but calls a callback when receiv
 componentFromProp(propName: string): ReactFunctionalComponent
 ```
 
-Creates a component that accepts a component as a prop and renders it with the remaining props.
+建立一個接受 component 作為一個 prop 的 component，並 render component 和剩下的 props。
 
-Example:
+範例：
 
 ```js
 const enhance = defaultProps({ component: 'button' })
@@ -683,14 +677,14 @@ nest(
 ): ReactClass
 ```
 
-Composes components by nesting each one inside the previous. For example:
+通過巢狀化的內容來組合 component。例如：
 
 ```js
-// Given components A, B, and C
+// 給定 component A、B 和 C
 const ABC = nest(A, B, C)
 <ABC pass="through">Child</ABC>
 
-// Effectively the same as
+// 效果相同於
 <A pass="through">
   <B pass="through">
     <C pass="through">
@@ -706,27 +700,27 @@ const ABC = nest(A, B, C)
 hoistStatics(hoc: HigherOrderComponent): HigherOrderComponent
 ```
 
-Augments a higher-order component so that when used, it copies non-react static properties from the base component to the new component. This is helpful when using Recompose with libraries like Relay.
+增強一個 higher-order component，以便在使用時它複製非 react static 屬性從 base component 到新的 component。這對於當使用 Recompose 和像是 Relay 之類的 library 的時候非常有用。
 
-Note that this only hoists _non-react_ statics. The following static properties will not be hoisted: `childContextTypes`, `contextTypes`, `defaultProps`, `displayName`, `getDefaultProps`, `mixins`, `propTypes`, and `type`. The following native static methods will also be ignored: `name`, `length`, `prototype`, `caller`, `arguments`, and `arity`.
+注意這只 hoist _非 react_ 的 static 屬性。以下的 static 屬性將不會被 hoist：`childContextTypes`、`contextTypes`、`defaultProps`、`displayName`、`getDefaultProps`、`mixins`、`propTypes` 和 `type`。以下原生的 static 方法也會被忽略：`name`、`length`、`prototype`、`caller`、`arguments` 和 `arity`。
 
 ## Observable utilities
 
-It turns out that much of the React Component API can be expressed in terms of observables:
+事實證明大部分的 React Component API 可以用 observable 的方式來表示：
 
-- Instead of `setState()`, combine multiple streams together.
-- Instead of `getInitialState()`, use `startWith()` or `concat()`.
-- Instead of `shouldComponentUpdate()`, use `distinctUntilChanged()`, `debounce()`, etc.
+- 合併多個 stream 在一起來代替 `setState()`。
+- 使用 `startWith()` 或 `concat()` 來代替 `getInitialState()`。
+- 使用 `distinctUntilChanged()`、`debounce()` 等等來代替 `shouldComponentUpdate()`。
 
-Other benefits include:
+其他的好處包含：
 
-- No distinction between state and props – everything is a stream.
-- No need to worry about unsubscribing from event listeners. Subscriptions are handled for you.
-- Sideways data loading is trivial – just combine the props stream with an external stream.
+- 不需要區別 state 和 props - 所有的東西都是 stream。
+- 不需要擔心從事件 listener 取消訂閱。Subscription 會幫你處理。
+- Sideways 載入資料是不需要的 - 只需要合併 props stream 與一個外部的 stream。
 - Access to an ecosystem of observable libraries, such as RxJS.
 
 
-**Recompose's observable utilities can be configured to work with any observable or stream-like library. See [`setObservableConfig()`](#setobservableconfig) below for details.**
+**Recompose's observable utilities 可以被設定與其他的 observable 或是 stream-like 的 library 一起使用。參考 [`setObservableConfig()`](#setobservableconfig) 以下詳細資料。**
 
 ### `componentFromStream()`
 
@@ -736,21 +730,21 @@ componentFromStream(
 ): ReactComponent
 ```
 
-Creates a React component by mapping an observable stream of props to a stream of React nodes (vdom).
+透過 map 一個 props 的 observable stream 成一個 React nodes（vdom）stream 來建立一個 React component。
 
-You can think of `propsToReactNode` as a function `f` such that
+你可以將 `propsToReactNode` 看作為一個 `f` function：
 
 ```js
 const vdom$ = f(props$)
 ```
 
-where `props$` is a stream of props and `vdom$` is a stream of React nodes. This formulation similar to the popular notion of React views as a function, often communicated as
+`props$` 是 props 的 stream 且 `vdom$` 是 React nodes 的 stream。這個表達方式類似於 React views 作為一個 function 的流行概念，經常被溝通作為：
 
 ```
 v = f(d)
 ```
 
-Example:
+範例：
 
 ```js
 const Counter = componentFromStream(props$ => {
@@ -788,9 +782,9 @@ componentFromStreamWithConfig<Stream>(
 ): ReactComponent
 ```
 
-Alternative to `componentFromStream()` that accepts an observable config and returns a customized `componentFromStream()` which uses the specified observable library. This option is recommended if you want to avoid global state with `setObservableConfig()`.
+替代 `componentFromStream()` 的 helper，它接受一個 observable config，並回傳一個自訂的 `componentFromStream()`，使用指定的 observable library。
 
-**Note: The following configuration modules are not included in the main export. You must import them individually, as shown in the examples.**
+**注意：以下的設定模組不包含在主要的 export。你必須獨立 import 它們，如範例所示。**
 
 #### RxJS
 
@@ -850,9 +844,9 @@ mapPropsStream(
 ): ReactComponent
 ```
 
-A higher-order component version of `componentFromStream()` — accepts a function that maps an observable stream of owner props to a stream of child props, rather than directly to a stream of React nodes. The child props are then passed to a base component.
+`componentFromStream()` 版本的 higher-order component - 接受一個 function，map 一個 owner props 的 observable stream 到一個子 props 的 stream，而不是直接到一個 React nodes 的 stream。然後將子 props 傳送到 base component。
 
-You may want to use this version to interoperate with other Recompose higher-order component helpers.
+你可能想要使用此版本與其他 Recompose higher-order component helper 進行互相操作。
 
 ### `mapPropsStreamWithConfig()`
 ```js
@@ -867,7 +861,7 @@ mapPropsStreamWithConfig<Stream>(
 ): ReactComponent
 ```
 
-Alternative to `mapPropsStream()` that accepts a observable config and returns a customized `mapPropsStream()` that uses the specified observable library. See `componentFromStreamWithConfig()` above.
+`mapPropsStream()` 的替代方案，接受一個 observable 設定並回傳一個使用指定 observable library 自訂的 `mapPropsStream()`。參考上方的 `componentFromStreamWithConfig()`。
 
 ```js
 const enhance = mapPropsStream(props$ => {
@@ -892,7 +886,7 @@ createEventHandler<T>(): {
 }
 ```
 
-Returns an object with properties `handler` and `stream`. `stream` is an observable sequence, and `handler` is a function that pushes new values onto the sequence. Useful for creating event handlers like `onClick`.
+回傳一個有 `handler` 和 `stream` 屬性的 object。`stream` 是一個 observable 的序列，而且 `handler` 是一個 function，push 新的值到序列上。對於建立 event handler 像是 `onClick` 非常的有用。
 
 ### `setObservableConfig()`
 
@@ -903,35 +897,35 @@ setObservableConfig<Stream>({
 })
 ```
 
-**Note: `setObservableConfig()` uses global state, and could break apps if used inside a package intended to be shared. See `componentFromStreamWithConfig()` and `mapPropsStreamWithConfig()` as alternatives for package authors.**
+**注意：`setObservableConfig()` 使用 global state，如果打算共享使用內部的 package，可能會造成 app break。參考 `componentFromStreamWithConfig()` 和 `mapPropsStreamWithConfig()` 作為 package author 的替代。**
 
-Observables in Recompose are plain objects that conform to the [ES Observable proposal](https://github.com/zenparsing/es-observable). Usually, you'll want to use them alongside an observable library like RxJS so that you have access to its suite of operators. By default, this requires you to convert the observables provided by Recompose before applying any transforms:
+在 Recompose 的 Observable 是純 object，符合 [ES Observable proposal](https://github.com/zenparsing/es-observable)。通常，你可能會想要與 observable library 像是 RxJS 的一起使用它們。預設上，要求你在 apply 任何轉換前，convert 由 Recompose 提供的 observable。
 
 ```js
 mapPropsStream(props$ => {
   const rxjsProps$ = Rx.Observable.from(props$)
-  // ...now you can use map, filter, scan, etc.
+  // ...現在你可以 map、 filter、scan 等等
   return transformedProps$
 })
 ```
 
-This quickly becomes tedious. Rather than performing this transform for each stream individually, `setObservableConfig()` sets a global observable transform that is applied automatically.
+這很快就會變得很乏味。`setObservableConfig()` 設定一個 global observable 轉換讓你可以自動的 apply，而不個別對每個 stream 執行轉換。
 
 ```js
 import Rx from 'rxjs'
 import { setObservableConfig } from 'recompose'
 
 setObservableConfig({
-  // Converts a plain ES observable to an RxJS 5 observable
+  // 轉換一個純 ES observable 成一個 RxJS 5 observable
   fromESObservable: Rx.Observable.from
 })
 ```
 
-In addition to `fromESObservable`, the config object also accepts `toESObservable`, which converts a stream back into an ES observable. Because RxJS 5 observables already conform to the ES observable spec, `toESObservable` is not necessary in the above example. However, it is required for libraries like RxJS 4 or xstream, whose streams do not conform to the ES observable spec.
+除了 `fromESObservable`，config object 也接受 `toESObservable`，轉換一個 stream 為一個 ES observable。因為 RxJS 5 observable 已經符合 ES observable spec，在上面的範例 `toESObservable` 不是必要的。然而，對於像是 RxJS 4 或 xstream 的 library 是需要的，這些 stream 不符合 ES observable spec。
 
-Fortunately, you likely don't need to worry about how to configure Recompose for your favorite stream library, because Recompose provides drop-in configuration for you.
+幸運的是，你不需要擔心對於你喜愛的 stream library 要去如何設定 Recompose，因為 Recompose 為你提供了設定。
 
-**Note: The following configuration modules are not included in the main export. You must import them individually, as shown in the examples.**
+**注意：以下的設定 modules 不包含主要的 export。你必須個別的 import 它們，如範例所示。**
 
 #### RxJS
 
