@@ -1,19 +1,19 @@
-# Should I use this? Performance and other concerns
+# 我該使用 Recompose 嗎？Performance 和其他的擔憂
 
-If function composition doesn't scare you, then yes, I think so. I believe using higher-order component helpers leads to smaller, more focused components, and provides a better programming model than using classes for operations—like `mapProps()` or `shouldUpdate()`—that aren't inherently class-y.
+我相信使用 higher-order composition helper 可以更精巧，更能關注在 component，並提供一個比 class 更好的 programming model，像是 `mapProps()` 或 `shouldUpdate()` - 它們本質不是 class-y。
 
-That being said, any abstraction over an existing API is going to come with trade-offs. There is a performance overhead when introducing a new component to the tree. I suspect this cost is negligible compared to the gains achieved by blocking subtrees from re-rendering using `shouldComponentUpdate()`—which Recompose makes easy with its `shouldUpdate()` and `onlyUpdateForKeys()` helpers. In the future, I'll work on some benchmarks so we know what we're dealing with.
+話雖如此，對現有 API 的任何抽像都可以得到權衡。當引入一個新的 component 到 tree 時，會有一個 performance 的開銷。我猜想透過 blocking subtree 使用 `shouldComponentUpdate()` 來重新 render 得到的 cost 結果是微不足道的 - 使用 Recompose 的 `shouldUpdate()` 和 `onlyUpdateForKeys()` helper 讓這些變得更容易。未來我們將做一些 benchmark，所以我們知道我們處理了些什麼。
 
-However, many of Recompose's higher-order component helpers are implemented using stateless function components rather than class components. Eventually, React will include optimizations for stateless components. Until then, we can do our own optimizations by taking advantage of referential transparency. In other words, creating an element from a stateless function is effectively* the same as calling the function and returning its output.
+然而，許多 Recompose 的 higher-order component helper 使用了 stateless function component 來實作，而不是 class component。最終，React 將包含 stateless component 的優化。在此之前，我們可以利用參照透明度來做自己的優化。換句話說，從一個 stateless function 建立一個元素是有效的*，相同於呼叫 function 並回傳 output。
 
-\* *Stateless function components are not referentially transparent if they access context or use default props; we detect that by checking for the existence of `contextTypes` and `defaultProps`.*
+\* *如果 Stateless function component 它們接受 context 或使用預設 props，就不是參考透明（referentially transparent）；我們透過檢查 `contextTypes` 和` defaultProps` 的存在來確認。*
 
-To accomplish this, Recompose uses a special version of `createElement()` that returns the output of stateless functions instead of creating a new element. For class components, it uses the built-in `React.createElement()`.
+為了要完成這個，Recompose 使用一個特別的 `createElement()` 版本，它回傳 stateless function 的 output，而不是建立一個新元素。對於 class component，它使用內建的 `React.createElement()`。
 
-I wouldn't recommend this approach for most of the stateless function components in your app. First of all, you lose the ability to use JSX, unless you monkey-patch `React.createElement()`, which is a bad idea. Second, you lose lazy evaluation. Consider the difference between these two components, given that `Comments` is a stateless function component:
+我不推薦這個方法在你的 app 中大部分的 stateless function component。首先，你會失去使用 JSX 語法，除非你對 `React.createElement()` 做了 monkey-patch，但不是個好主意。再來，你會失去惰性求值（lazy evaluation）。考慮這兩個 component 之間的差別，因為 `Comments` 是一個 stateless function component：
 
 ```js
-// With lazy evaluation
+// 具有 lazy evaluation
 const Post = ({ title, content, comments, showComments }) => {
   const theComments = <Comments comments={comments} />;
   return (
@@ -25,7 +25,7 @@ const Post = ({ title, content, comments, showComments }) => {
   );
 });
 
-// Without lazy evaluation
+// 沒有 lazy evaluation
 const Post = ({ title, content, comments, showComments }) => {
   const theComments = Comments({ comments });
   return (
@@ -38,6 +38,6 @@ const Post = ({ title, content, comments, showComments }) => {
 });
 ```
 
-In the first example, the `Comments` function is used to create a React element, and will only be evaluated *by React* if `showComments` is true. In the second example, the `Comments` function is evaluated on every render of `Post`, regardless of the value of `showComments`. This can be fixed by putting the `Comments` call inside the ternary statement, but it's easy to neglect this distinction and create performance problems. As a general rule, you should always create an element.
+在第一個範例，`Comments` function 用來建立一個 React 元素，如果 `showComments` 為 true，只*透過 React* 被計算。在第二個範例，`Comments` function 在每次 render 的 `Post` 被計算，不管 `showComments` 的值為何。可以把 `Comments` 呼叫放在三元運算子中來解決，但很容易忽略這種區別，並產生 performance 問題。基本上，你應該總是建立一個元素。
 
-So why does Recompose break this rule? Because it's a utility library, not an application. Just as it's okay for lodash to use for-loops as an implementation detail of its helper functions, it should be okay for Recompose to eschew intermediate React elements as a (temporary) performance optimization.
+所以為什麼 Recompose 要打破這個規則？因為它是一個 utility library，而不是一個應用程式。就像 lodash 去使用 for-loops 作為 helper function 實作細節一樣，對於 Recompose 避免中間 React 元素作為一個（暫時）performance 優化也是可行的。
