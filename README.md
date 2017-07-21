@@ -7,27 +7,27 @@ Recompose
 [![npm version](https://img.shields.io/npm/v/recompose.svg?style=flat-square)](https://www.npmjs.com/package/recompose)
 [![npm downloads](https://img.shields.io/npm/dm/recompose.svg?style=flat-square)](https://www.npmjs.com/package/recompose)
 
-Recompose is a React utility belt for function components and higher-order components. Think of it like lodash for React.
+Recompose 是一個 React utility 用於 function component 和 higher-order component。把它想為像是給 React 使用的 lodash。
 
-[**Full API documentation**](docs/API.md) - Learn about each helper
+[**完整 API 文件**](docs/API.md) - 學習關於每個 helper
 
-[**Recompose Base Fiddle**](https://jsfiddle.net/acdlite/69z2wepo/41596/) - Easy way to dive in
+[**Recompose 基礎 Fiddle**](https://jsfiddle.net/acdlite/69z2wepo/41596/) - 深入淺出 Recompose
 
 ```
 npm install recompose --save
 ```
 
-**📺 Watch Andrew's [talk on Recompose at React Europe](https://www.youtube.com/watch?v=zD_judE-bXk).**
+**📺 觀看 Andrew [在 React Europe 上的 Recompose talk](https://www.youtube.com/watch?v=zD_judE-bXk)。**
 
-### Related modules
+### 相關 module
 
-[**recompose-relay**](src/packages/recompose-relay) — Recompose helpers for Relay
+[**recompose-relay**](src/packages/recompose-relay) — Relay 的 Recompose helper
 
-## You can use Recompose to...
+## 你可以使用 Recompose 在...
 
-### ...lift state into functional wrappers
+### ...提升 state 到 functional wrapper
 
-Helpers like `withState()` and `withReducer()` provide a nicer way to express state updates:
+像是 `withState()` 和 `withReducer()` helper 提供一個很好的方式來表達 state 的更新：
 
 ```js
 const enhance = withState('counter', 'setCounter', 0)
@@ -40,7 +40,7 @@ const Counter = enhance(({ counter, setCounter }) =>
 )
 ```
 
-Or with a Redux-style reducer:
+或者是一個 Redux 風格的 reducer：
 
 ```js
 const counterReducer = (count, action) => {
@@ -64,9 +64,9 @@ const Counter = enhance(({ counter, dispatch }) =>
 )
 ```
 
-### ...perform the most common React patterns
+### ...執行大部分 React 常見的 pattern
 
-Helpers like `componentFromProp()` and `withContext()` encapsulate common React patterns into a simple functional interface:
+像是 `componentFromProp()` 和 `withContext()` helper 封裝常見的 React pattern 到一個簡單的 functional interface：
 
 ```js
 const enhance = defaultProps({ component: 'button' })
@@ -82,34 +82,34 @@ const provide = store => withContext(
   () => ({ store })
 )
 
-// Apply to base component
-// Descendants of App have access to context.store
+// Apply 到 base component
+// App 的子節點可以存取到 context.store
 const AppWithContext = provide(store)(App)
 ```
 
-### ...optimize rendering performance
+### ...優化 render  效能
 
-No need to write a new class just to implement `shouldComponentUpdate()`. Recompose helpers like `pure()` and `onlyUpdateForKeys()` do this for you:
+不需要轉移寫一個新的 class 來實作 `shouldComponentUpdate()`。像是 `pure()` 和 `onlyUpdateForKeys()` 的 Recompose helper 會幫你完成：
 
 ```js
-// A component that is expensive to render
+// 一個 render 成本很高的 component
 const ExpensiveComponent = ({ propA, propB }) => {...}
 
-// Optimized version of same component, using shallow comparison of props
-// Same effect as React's PureRenderMixin
+// 相同的 component 的優化版本，使用 props 的 shallow comparison
+// 效果相同於 React 的 PureRenderMixin
 const OptimizedComponent = pure(ExpensiveComponent)
 
-// Even more optimized: only updates if specific prop keys have changed
+// 更多的優化：如果指定的 props key 改變了才做更新
 const HyperOptimizedComponent = onlyUpdateForKeys(['propA', 'propB'])(ExpensiveComponent)
 ```
 
-### ...interoperate with other libraries
+### ...與其他的 library 相互操作
 
-Recompose helpers integrate really nicely with external libraries like Relay, Redux, and RxJS
+Recompose helper 整合了非常棒的外部 library。像是 Relay、Redux 和 RxJS
 
 ```js
 const enhance = compose(
-  // This is a Recompose-friendly version of Relay.createContainer(), provided by recompose-relay
+  // 這是 Relay.createContainer() 的 Recompose 版本，由 recompose-relay 提供
   createContainer({
     fragments: {
       post: () => Relay.QL`
@@ -131,40 +131,40 @@ const Post = enhance(({ title, content }) =>
 )
 ```
 
-### ...build your own libraries
+### ...建立你自己的 library
 
-Many React libraries end up implementing the same utilities over and over again, like `shallowEqual()` and `getDisplayName()`. Recompose provides these utilities for you.
+許多 React library 重複實作了相同 utility，像是 `shallowEqual()` 和 `getDisplayName()`。Recompose 也提供了這些 utility 給你使用。
 
 ```js
-// Any Recompose module can be imported individually
+// 任何 Recompose module 可以被獨立的被 import
 import getDisplayName from 'recompose/getDisplayName'
 ConnectedComponent.displayName = `connect(${getDisplayName(BaseComponent)})`
 
-// Or, even better:
+// 或是甚至更好的：
 import wrapDisplayName from 'recompose/wrapDisplayName'
 ConnectedComponent.displayName = wrapDisplayName(BaseComponent, 'connect')
 
 import toClass from 'recompose/toClass'
-// Converts a function component to a class component, e.g. so it can be given
-// a ref. Returns class components as is.
+// 轉換一個 function component 成為一個 class component，例如，它可以給定一個 ref，
+// 回傳 class component。
 const ClassComponent = toClass(FunctionComponent)
 ```
 
-### ...and more
+### ...更多
 
-## API docs
+## API 文件
 
-[Read them here](docs/API.md)
+[閱讀文件](docs/API.md)
 
-## Flow support
+## 支援 Flow
 
-[Read the docs](types)
+[閱讀文件](types)
 
 ## Why
 
-Forget ES6 classes vs. `createClass()`.
+忘了 ES6 class 和 `createClass()` 吧。
 
-An idiomatic React application consists mostly of function components.
+React 應用程式主要慣用 function component 組合而成。
 
 ```js
 const Greeting = props =>
@@ -173,29 +173,29 @@ const Greeting = props =>
   </p>
 ```
 
-Function components have several key advantages:
+Function component 有許多關鍵優勢：
 
-- They help prevent abuse of the `setState()` API, favoring props instead.
-- They encourage the ["smart" vs. "dumb" component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0).
-- They encourage code that is more reusable and modular.
-- They discourage giant, complicated components that do too many things.
-- In the future, they will allow React to make performance optimizations by avoiding unnecessary checks and memory allocations.
+- 它們可以防止濫用 `setState()` API，偏好以 props 作為替代。
+- 它們鼓勵 [「smart」 和 「dumb」 component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)。
+- 它們鼓勵程式碼應該可以有更多的複用性和模組化。
+- 它們阻止 component 的增長，變得複雜且負責太多的職責。
+- 將來，他們將允許 React 透過不必要的檢查和 memory 分配來做 performance 的優化。
 
-(Note that although Recompose encourages the use of function components whenever possible, it works with normal React components as well.)
+（注意！雖然 Recompose 鼓勵盡可能使用 function component 操作，但它還是可以和正常的 React components 相互工作。）
 
-### Higher-order components made easy
+### Higher-order component 讓一切更簡單
 
-Most of the time when we talk about composition in React, we're talking about composition of components. For example, a `<Blog>` component may be composed of many `<Post>` components, which are composed of many `<Comment>` components.
+大部分我們在 React 談論關於 composition，都是關於 component 的 composition。例如，一個  `<Blog>` 可能有多個 `<Post>` component 組合而成，它們由許多 `<Comment>` component 組合而成。
 
-Recompose focuses on another unit of composition: **higher-order components** (HoCs). HoCs are functions that accept a base component and return a new component with additional functionality. They can be used to abstract common tasks into reusable pieces.
+Recompose 專注在另一個 composition 單元：**higher-order components** （HoCs）。HoCs 是 function，接受一個 base component 並回傳一個附加新功能的 component。它們可用於將常見的抽象任務成為一個可複用的部分。
 
-Recompose provides a toolkit of helper functions for creating higher-order components.
+Recompose 提供一個 helper function 的工具包來建立 higher-order component。
 
-## [Should I use this? Performance and other concerns](docs/performance.md)
+## [我應該使用這個嗎？Performance 和其他的擔憂](docs/performance.md)
 
-## Usage
+## 使用方法
 
-All functions are available on the top-level export.
+所有 function 都可在頂層的 export 可使用。
 
 ```js
 import { compose, mapProps, withState /* ... */ } from 'recompose'
@@ -203,18 +203,18 @@ import { compose, mapProps, withState /* ... */ } from 'recompose'
 
 ### Composition
 
-Recompose helpers are designed to be composable:
+Recompose helper 被設計為可以被組合的：
 
 ```js
 const BaseComponent = props => {...}
 
-// This will work, but it's tedious
+// 這是可以使用的，但是有點乏味
 let EnhancedComponent = pure(BaseComponent)
 EnhancedComponent = mapProps(/*...args*/)(EnhancedComponent)
 EnhancedComponent = withState(/*...args*/)(EnhancedComponent)
 
-// Do this instead
-// Note that the order has reversed — props flow from top to bottom
+// 取而代之
+// 注意！排序將會被反轉 - props 的 flow 是由頂部到底部
 const enhance = compose(
   withState(/*...args*/),
   mapProps(/*...args*/),
@@ -223,7 +223,7 @@ const enhance = compose(
 const EnhancedComponent = enhance(BaseComponent)
 ```
 
-Technically, this also means you can use them as decorators (if that's your thing):
+技術上，這也意味你可以使用他們作為 decorators（取自於你的決定）：
 
 ```js
 @withState(/*...args*/)
@@ -232,17 +232,16 @@ Technically, this also means you can use them as decorators (if that's your thin
 class Component extends React.Component {...}
 ```
 
-### Optimizing bundle size
+### 優化 bundle size
 
-Since `0.23.1` version recompose got support of ES2015 modules.
-To reduce size all you need is to use bundler with tree shaking support
-like [webpack 2](https://github.com/webpack/webpack) or [Rollup](https://github.com/rollup/rollup).
+由於 `0.23.1` 版本的 recompose 得到了 ES2015 module 的支援。
+要減少 bundle 大小，你需要使用支援 tree shaking 的 bundler 像是 [webpack 2](https://github.com/webpack/webpack) 或 [Rollup](https://github.com/rollup/rollup)。
 
-#### Using babel-lodash-plugin
+#### 使用 babel-lodash-plugin
 
-[babel-lodash-plugin](https://github.com/lodash/babel-plugin-lodash) is not only limited to [lodash](https://github.com/lodash/lodash). It can be used with `recompose` as well.
+[babel-lodash-plugin](https://github.com/lodash/babel-plugin-lodash) 不僅限於 [lodash](https://github.com/lodash/lodash)，它也可以和 `recompose` 一起使用。
 
-This can be done by updating `lodash` config in `.babelrc`.
+可以透過在 `.babelrc` 來更新 `lodash` 完成設定。
 
 ```diff
  {
@@ -259,29 +258,29 @@ After that, you can do imports like below without actually including the entire 
 import { compose, mapProps, withState } from 'recompose'
 ```
 
-## Who uses Recompose
-If your company or project uses Recompose, feel free to add it to [the official list of users](https://github.com/acdlite/recompose/wiki/Sites-Using-Recompose) by [editing](https://github.com/acdlite/recompose/wiki/Sites-Using-Recompose/_edit) the wiki page.
+## 誰使用 Recompose
+如果你的公司或是專案使用 Recompose，請透過[編輯](https://github.com/acdlite/recompose/wiki/Sites-Using-Recompose/_edit) wiki 頁面自行新增到[官方用戶名單](https://github.com/acdlite/recompose/wiki/Sites-Using-Recompose)。
 
-## Recipes for Inspiration
-We have a community-driven Recipes page. It's a place to share and see recompose patterns for inspiration. Please add to it! [Recipes](https://github.com/acdlite/recompose/wiki/Recipes).
+## Recipes 的靈感
+我們有一個 community-driven Recipes 的頁面。它是一個分享和看到 recompose pattern 靈感的地方。請新增到！[Recipes](https://github.com/acdlite/recompose/wiki/Recipes)。
 
-## Feedback wanted
+## 需要 Feedback
 
-Project is still in the early stages. Please file an issue or submit a PR if you have suggestions! Or ping me (Andrew Clark) on [Twitter](https://twitter.com/acdlite).
+Project 處於在早期的階段。如果你有任何建議，請提出 issue 或是送出 PR！或者在[Twitter](https://twitter.com/acdlite)（Andrew Clark）上聯繫我。
 
 
-## Getting Help
+## 取得幫助
 
-**For support or usage questions like “how do I do X with Recompose” and “my code doesn't work”, please search and ask on [StackOverflow with a Recompose tag](http://stackoverflow.com/questions/tagged/recompose?sort=votes&pageSize=50) first.**
+**對於像是「我該如何在使用 X 與 Recompose」或「我的程式碼不能執行」之類的使用問題，請優先在 [StackOverflow 使用 Recompose tag](http://stackoverflow.com/questions/tagged/recompose?sort=votes&pageSize=50) 搜尋並提問。**
 
-We ask you to do this because StackOverflow has a much better job at keeping popular questions visible. Unfortunately good answers get lost and outdated on GitHub.
+我們請你這麼做是因為 StackOverflow 可以讓更常見的問題可以被看見。不幸的是，好的答案可能在 GitHub 上丟失並過時。
 
-Some questions take a long time to get an answer. **If your question gets closed or you don't get a reply on StackOverflow for longer than a few days,** we encourage you to post an issue linking to your question. We will close your issue but this will give people watching the repo an opportunity to see your question and reply to it on StackOverflow if they know the answer.
+有一些問題需要很長時間才能得到答案。**如果你的問題被關閉，或是你在很長的時間沒辦法在 StackOverflow 得到回覆，** 我們鼓勵你貼上你的 issue 並連結到你的問題。我們將關閉你的 issue，但是這將讓其他人有機會看到在個問題並在 StackOverflow 上回覆。
 
-Please be considerate when doing this as this is not the primary purpose of the issue tracker.
+請體諒我們這麼做, 因為這不是 issue tracker 的主要目的。
 
-### Help Us Help You
+### 幫助我們也幫助你
 
-On both websites, it is a good idea to structure your code and question in a way that is easy to read to entice people to answer it. For example, we encourage you to use syntax highlighting, indentation, and split text in paragraphs.
+在這兩個網站上，用一種容易閱讀的方式來結構化你的程式碼和問題，來吸引他人來回答，這是一個很好的辦法。例如，我們鼓勵你使用語法高亮、縮排和分割段落。
 
-Please keep in mind that people spend their free time trying to help you. You can make it easier for them if you provide versions of the relevant libraries and a runnable small project reproducing your issue. You can put your code on [JSBin](http://jsbin.com) or, for bigger projects, on GitHub. Make sure all the necessary dependencies are declared in `package.json` so anyone can run `npm install && npm start` and reproduce your issue.
+請記住，其他人花了時間來嘗試幫助你，如果你可以提供相關的 library 版本並執行一個小的 project 來重現你的問題，可以讓這一切變得容易。你可以將你的程式碼放在 [JSBin](http://jsbin.com) 或者是較大的 project 在 GitHub。確保所有必要 dependency 都被宣告在 `package.json`，任何人執行 `npm install && npm start` 都可以重現問題。
