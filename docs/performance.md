@@ -4,7 +4,7 @@
 
 話雖如此，對現有 API 的任何抽像都可以得到權衡。當引入一個新的 component 到 tree 時，會有一個 performance 的開銷。我猜想透過 blocking subtree 使用 `shouldComponentUpdate()` 來重新 render 得到的 cost 結果是微不足道的 - 使用 Recompose 的 `shouldUpdate()` 和 `onlyUpdateForKeys()` helper 讓這些變得更容易。未來我們將做一些 benchmark，所以我們知道我們處理了些什麼。
 
-然而，許多 Recompose 的 higher-order component helper 使用了 stateless function component 來實作，而不是 class component。最終，React 將包含 stateless component 的優化。在此之前，我們可以利用參照透明度來做自己的優化。換句話說，從一個 stateless function 建立一個元素是有效的*，相同於呼叫 function 並回傳 output。
+然而，許多 Recompose 的 higher-order component helper 使用了 stateless function component 來實作，而不是 class component。最終，React 將包含 stateless component 的優化。在此之前，我們可以利用參考透明來做本身的優化。換句話說，從一個 stateless function 建立一個元素是有效的*，相同於呼叫 function 並回傳 output。
 
 \* *如果 Stateless function component 它們接受 context 或使用預設 props，就不是參考透明（referentially transparent）；我們透過檢查 `contextTypes` 和` defaultProps` 的存在來確認。*
 
