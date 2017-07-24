@@ -7,9 +7,9 @@ Recompose
 [![npm version](https://img.shields.io/npm/v/recompose.svg?style=flat-square)](https://www.npmjs.com/package/recompose)
 [![npm downloads](https://img.shields.io/npm/dm/recompose.svg?style=flat-square)](https://www.npmjs.com/package/recompose)
 
-Recompose 是一個 React utility 用於 function component 和 higher-order component。把它想為像是給 React 使用的 lodash。
+Recompose 是一個 React utility 用於 function component 和 higher-order component。可以把它想為像是給 React 使用的 lodash。
 
-[**完整 API 文件**](docs/API.md) - 學習關於每個 helper
+[**完整 API 文件**](docs/API.md) - 了解每個 helper
 
 [**Recompose 基礎 Fiddle**](https://jsfiddle.net/acdlite/69z2wepo/41596/) - 深入淺出 Recompose
 
@@ -87,7 +87,7 @@ const provide = store => withContext(
 const AppWithContext = provide(store)(App)
 ```
 
-### ...優化 render  效能
+### ...優化 render 效能
 
 不需要轉移寫一個新的 class 來實作 `shouldComponentUpdate()`。像是 `pure()` 和 `onlyUpdateForKeys()` 的 Recompose helper 會幫你完成：
 
@@ -109,7 +109,7 @@ Recompose helper 整合了非常棒的外部 library。像是 Relay、Redux 和 
 
 ```js
 const enhance = compose(
-  // 這是 Relay.createContainer() 的 Recompose 版本，由 recompose-relay 提供
+  // 由 recompose-relay 所提供，這是 Recompose 版本的 Relay.createContainer()
   createContainer({
     fragments: {
       post: () => Relay.QL`
@@ -162,7 +162,7 @@ const ClassComponent = toClass(FunctionComponent)
 
 ## Why
 
-忘了 ES6 class 和 `createClass()` 吧。
+忘了 ES6 class 和 `createClass()` 吧！
 
 React 應用程式主要慣用 function component 組合而成。
 
@@ -175,7 +175,7 @@ const Greeting = props =>
 
 Function component 有許多關鍵優勢：
 
-- 它們可以防止濫用 `setState()` API，偏好以 props 作為替代。
+- 它們可以防止濫用 `setState()` API，以 props 作為替代。
 - 它們鼓勵 [「smart」 和 「dumb」 component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)。
 - 它們鼓勵程式碼應該可以有更多的複用性和模組化。
 - 它們阻止 component 的增長，變得複雜且負責太多的職責。
@@ -191,11 +191,11 @@ Recompose 專注在另一個 composition 單元：**higher-order components** �
 
 Recompose 提供一個 helper function 的工具包來建立 higher-order component。
 
-## [我應該使用這個嗎？Performance 和其他的擔憂](docs/performance.md)
+## [我應該使用 Recompose 嗎？Performance 和其他問題的擔憂](docs/performance.md)
 
 ## 使用方法
 
-所有 function 都可在頂層的 export 可使用。
+所有 function 在頂層被 export 後可以使用。
 
 ```js
 import { compose, mapProps, withState /* ... */ } from 'recompose'
@@ -252,21 +252,21 @@ class Component extends React.Component {...}
  }
 ```
 
-After that, you can do imports like below without actually including the entire library content.
+之後，你可以像以下 import 需要的部分，而不需實際 import 整個 libray。
 
 ```js
 import { compose, mapProps, withState } from 'recompose'
 ```
 
-## 誰使用 Recompose
+## 誰在使用 Recompose
 如果你的公司或是專案使用 Recompose，請透過[編輯](https://github.com/acdlite/recompose/wiki/Sites-Using-Recompose/_edit) wiki 頁面自行新增到[官方用戶名單](https://github.com/acdlite/recompose/wiki/Sites-Using-Recompose)。
 
 ## Recipes 的靈感
-我們有一個 community-driven Recipes 的頁面。它是一個分享和看到 recompose pattern 靈感的地方。請新增到！[Recipes](https://github.com/acdlite/recompose/wiki/Recipes)。
+我們有一個 community-driven Recipes 的頁面。它是一個分享和看到 recompose pattern 靈感的地方。請新增到 [Recipes](https://github.com/acdlite/recompose/wiki/Recipes)！
 
 ## 需要 Feedback
 
-Project 處於在早期的階段。如果你有任何建議，請提出 issue 或是送出 PR！或者在[Twitter](https://twitter.com/acdlite)（Andrew Clark）上聯繫我。
+Project 處於在早期的階段。如果你有任何建議，請提出 issue 或是送出 PR！或者在 [Twitter](https://twitter.com/acdlite)（Andrew Clark）上聯繫我。
 
 
 ## 取得幫助
