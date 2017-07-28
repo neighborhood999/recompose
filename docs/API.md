@@ -142,7 +142,7 @@ withHandlers(
 
 允許 handler 經由 closure 去存取目前的 props，而不需要去改變它的 signature。
 
-Handler 作為 immutable props 被傳入到 base component，它們的身份通過 render 被保留。這避免在一個 functional component 在內部建立 handler 的陷阱，導致每次 render 都會有新的 handler，打破了依賴於 prop 相等的 `shouldComponentUpdate()` 優化。這是主要的理由使用 `withHandlers` 來建立 handler，而不是使用 `mapProps` 或 `withProps` 在每次 update 時建立新的 handler。
+Handler 作為 immutable props 被傳入到 base component，它們的身份通過 render 被保留。這避免在一個 functional component 在內部建立 handler 的陷阱，導致每次 render 都會有新的 handler，打破了依賴於 prop 相等的 `shouldComponentUpdate()` 優化。這是使用 `withHandlers` 主要的理由來建立 handler，而不是使用 `mapProps` 或 `withProps` 在每次 update 時建立新的 handler。
 
 使用範例：
 
