@@ -205,7 +205,7 @@ Recompose 提供一個 helper function 的工具包來建立 higher-order compon
 import { compose, mapProps, withState /* ... */ } from 'recompose'
 ```
 
-**Note:** `react` is a _peer dependency_ of Recompose.  If you're using `preact`, add this to your `webpack.config.js`:
+**注意：** Recompose 的_對等依賴（peer dependency）_ 是 `react`。如果你使用 `preact`，新增以下到你的 `webpack.config.js`：
 
 ```js
 resolve: {
