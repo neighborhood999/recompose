@@ -879,7 +879,7 @@ createEventHandlerWithConfig<T>(
 }
 ```
 
-Alternative to `createEventHandler()` that accepts an observable config and returns a customized `createEventHandler()` that uses the specified observable library. See `componentFromStreamWithConfig()` above.
+另一個 `createEventHandler()` 接受一個 observable 的設定，並回傳使用指定 observable library 客製化的 `createEventHandler()`。參考上方 `componentFromStreamWithConfig()`。
 
 ### `setObservableConfig()`
 
