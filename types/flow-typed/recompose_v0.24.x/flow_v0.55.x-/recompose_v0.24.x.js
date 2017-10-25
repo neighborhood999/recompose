@@ -34,7 +34,7 @@
  *
  * utils:
  * getDisplayName, wrapDisplayName, shallowEqual,
- * isClassComponent, createEagerElement, createEagerFactory, createSink, componentFromProp,
+ * isClassComponent, createSink, componentFromProp,
  * nest, hoistStatics,
  */
 
@@ -64,64 +64,6 @@ declare module 'recompose' {
 
   declare type UnaryFn<A, R> = (a: A) => R
 
-  declare type Compose = (<A, B, C, D, E, F, G, H, I>(
-    hi: UnaryFn<H, I>,
-    gh: UnaryFn<G, H>,
-    fg: UnaryFn<F, G>,
-    ef: UnaryFn<E, F>,
-    de: UnaryFn<D, E>,
-    cd: UnaryFn<C, D>,
-    bc: UnaryFn<B, C>,
-    ab: UnaryFn<A, B>,
-    ...rest: Array<void>
-  ) => UnaryFn<A, I>) &
-    (<A, B, C, D, E, F, G, H>(
-      gh: UnaryFn<G, H>,
-      fg: UnaryFn<F, G>,
-      ef: UnaryFn<E, F>,
-      de: UnaryFn<D, E>,
-      cd: UnaryFn<C, D>,
-      bc: UnaryFn<B, C>,
-      ab: UnaryFn<A, B>,
-      ...rest: Array<void>
-    ) => UnaryFn<A, H>) &
-    (<A, B, C, D, E, F, G>(
-      fg: UnaryFn<F, G>,
-      ef: UnaryFn<E, F>,
-      de: UnaryFn<D, E>,
-      cd: UnaryFn<C, D>,
-      bc: UnaryFn<B, C>,
-      ab: UnaryFn<A, B>,
-      ...rest: Array<void>
-    ) => UnaryFn<A, G>) &
-    (<A, B, C, D, E, F>(
-      ef: UnaryFn<E, F>,
-      de: UnaryFn<D, E>,
-      cd: UnaryFn<C, D>,
-      bc: UnaryFn<B, C>,
-      ab: UnaryFn<A, B>,
-      ...rest: Array<void>
-    ) => UnaryFn<A, F>) &
-    (<A, B, C, D, E>(
-      de: UnaryFn<D, E>,
-      cd: UnaryFn<C, D>,
-      bc: UnaryFn<B, C>,
-      ab: UnaryFn<A, B>,
-      ...rest: Array<void>
-    ) => UnaryFn<A, E>) &
-    (<A, B, C, D>(
-      cd: UnaryFn<C, D>,
-      bc: UnaryFn<B, C>,
-      ab: UnaryFn<A, B>,
-      ...rest: Array<void>
-    ) => UnaryFn<A, D>) &
-    (<A, B, C>(
-      bc: UnaryFn<B, C>,
-      ab: UnaryFn<A, B>,
-      ...rest: Array<void>
-    ) => UnaryFn<A, C>) &
-    (<A, B>(ab: UnaryFn<A, B>, ...rest: Array<void>) => UnaryFn<A, B>)
-
   // -----------------------------------------------------------------
   // Public declarations
   // -----------------------------------------------------------------
@@ -133,7 +75,7 @@ declare module 'recompose' {
     Component<Enhanced>
   >
 
-  declare export var compose: Compose
+  declare export var compose: $Compose
 
   // ---------------------------------------------------------------------------
   // ----------------===<<<HOCs with good flow support>>>===--------------------
@@ -304,16 +246,6 @@ declare module 'recompose' {
   declare export function shallowEqual(objA: mixed, objB: mixed): boolean
 
   declare export function isClassComponent(value: any): boolean
-
-  declare export function createEagerElement<A>(
-    type: Component<A> | string,
-    props: ?A,
-    children?: ?React$Node
-  ): React$Element<any>
-
-  declare export function createEagerFactory<A>(
-    type: Component<A> | string
-  ): (props: ?A, children?: ?React$Node) => React$Element<any>
 
   declare export function createSink<A>(
     callback: (props: A) => void
