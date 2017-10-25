@@ -66,16 +66,17 @@ const PureComponent = pure(BaseComponent)
   + [`wrapDisplayName()`](#wrapdisplayname)
   + [`shallowEqual()`](#shallowequal)
   + [`isClassComponent()`](#isclasscomponent)
-  + [`createEagerElement()`](#createeagerelement)
-  + [`createEagerFactory()`](#createeagerfactory)
   + [`createSink()`](#createsink)
   + [`componentFromProp()`](#componentfromprop)
   + [`nest()`](#nest)
   + [`hoistStatics()`](#hoiststatics)
 * [Observable utilities](#observable-utilities)
   + [`componentFromStream()`](#componentfromstream)
+  + [`componentFromStreamWithConfig()`](#componentfromstreamwithconfig)
   + [`mapPropsStream()`](#mappropsstream)
+  + [`mapPropsStreamWithConfig()`](#mappropsstreamwithconfig)
   + [`createEventHandler()`](#createeventhandler)
+  + [`createEventHandlerWithConfig()`](#createeventhandlerwithconfig)
   + [`setObservableConfig()`](#setobservableconfig)
 
 ## Higher-order components
@@ -619,31 +620,6 @@ isClassComponent(value: any): boolean
 
 給定的值是否為 React component class，回傳布林值。
 
-### `createEagerElement()`
-
-```js
-createEagerElement(
-  type: ReactClass | ReactFunctionalComponent | string,
-  props: ?Object,
-  children: ReactNode
-): ReactElement
-```
-
-React 元素是惰性求值的。但是當一個 higher-order component render 一個 functional component，惰性求值沒有實質的益處。`createEagerElement()` 是一個 `React.createElement()` 的替代，確認給定的 component 是參考透明的。如果是這樣的話，不回傳一個 React 元素，它呼叫 functional component 與給定的 props 並回傳它的 output。
-
-### `createEagerFactory()`
-
-```js
-createEagerFactory(
-  type: ReactClass | ReactFunctionalComponent | string,
-): (
-  props: ?Object,
-  children: ReactNode
-) => ReactElement
-```
-
-`createEagerElement()` factory 的 形式，給定一個 component，它回傳一個 [factory](https://facebook.github.io/react/docs/react-api.html#createfactory)。
-
 ### `createSink()`
 
 ```js
@@ -883,12 +859,27 @@ const Timer = enhance(({ timeElapsed }) =>
 
 ```js
 createEventHandler<T>(): {
-  handler: (value: T) => void
-  stream: Observable<T>,
+  handler: (value: T) => void,
+  stream: Observable<T>
 }
 ```
 
 回傳一個有 `handler` 和 `stream` 屬性的 object。`stream` 是一個 observable 的序列，而且 `handler` 是一個 function，push 新的值到序列上。對於建立 event handler 像是 `onClick` 非常的有用。
+
+### `createEventHandlerWithConfig()`
+```js
+createEventHandlerWithConfig<T>(
+  config: {
+    fromESObservable<T>: ?(observable: Observable<T>) => Stream<T>,
+    toESObservable<T>: ?(stream: Stream<T>) => Observable<T>,
+  }
+) => (): {
+  handler: (value: T) => void,
+  stream: Observable<T>
+}
+```
+
+Alternative to `createEventHandler()` that accepts an observable config and returns a customized `createEventHandler()` that uses the specified observable library. See `componentFromStreamWithConfig()` above.
 
 ### `setObservableConfig()`
 

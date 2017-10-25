@@ -11,7 +11,7 @@ Recompose 是一個 React utility 用於 function component 和 higher-order com
 
 [**完整 API 文件**](docs/API.md) - 了解每個 helper
 
-[**Recompose Base Fiddle**](https://jsfiddle.net/samsch/p3vsmrvo/2/) - 深入淺出 Recompose
+[**Recompose Base Fiddle**](https://jsfiddle.net/samsch/p3vsmrvo/24/) - 深入淺出 Recompose
 
 ```
 npm install recompose --save
