@@ -317,7 +317,7 @@ withStateHandlers(
       <div>
         <Button onClick={() => incrementOn(2)}>Inc</Button>
         <Button onClick={() => decrementOn(3)}>Dec</Button>
-        <Button onClick={resetCounter}>Dec</Button>
+        <Button onClick={resetCounter}>Reset</Button>
       </div>
   )
 ```
