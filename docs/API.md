@@ -526,7 +526,7 @@ lifecycle(
 
 透過 `setState` 任何 state 可以在 lifecycle 方法做改變，將 state 作為 props 被 wrap 到 component 被傳遞。
 
-Example:
+範例：
 ```js
 const PostsList = ({ posts }) => (
   <ul>{posts.map(p => <li>{p.title}</li>)}</ul>
