@@ -17,7 +17,8 @@ Recompose 是一個 React utility 用於 function component 和 higher-order com
 npm install recompose --save
 ```
 
-**📺 觀看 Andrew [在 React Europe 上的 Recompose talk](https://www.youtube.com/watch?v=zD_judE-bXk)。**
+**📺 觀看 Andrew [在 React Europe 上的 Recompose talk](https://www.youtube.com/watch?v=zD_judE-bXk)。**  
+*(注意：Andrew 在 React Europe 上的 Recompose talk 被移除了，更多資訊請參考[這裡](https://github.com/acdlite/recompose/releases/tag/v0.26.0))*
 
 ### 相關 module
 
@@ -251,9 +252,9 @@ class Component extends React.Component {...}
 由於 `0.23.1` 版本的 recompose 得到了 ES2015 module 的支援。
 要減少 bundle 大小，你需要使用支援 tree shaking 的 bundler 像是 [webpack 2](https://github.com/webpack/webpack) 或 [Rollup](https://github.com/rollup/rollup)。
 
-#### 使用 babel-lodash-plugin
+#### 使用 babel-plugin-lodash
 
-[babel-lodash-plugin](https://github.com/lodash/babel-plugin-lodash) 不僅限於 [lodash](https://github.com/lodash/lodash)，它也可以和 `recompose` 一起使用。
+[babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash) 不僅限於 [lodash](https://github.com/lodash/lodash)。它也可以和 `recompose` 一起使用。
 
 可以透過在 `.babelrc` 來更新 `lodash` 完成設定。
 
@@ -271,6 +272,28 @@ class Component extends React.Component {...}
 ```js
 import { compose, mapProps, withState } from 'recompose'
 ```
+
+### Debugging
+
+如何在 HOC 之間追蹤 `props` 可能非常的困難。一個有用的技巧是你可以建立一個 debug HOC 來列印出 props，它不會修改 base component。
+
+建立：
+
+```js
+const debug = withProps(console.log)
+```
+
+然後在 HOC 之間使用它
+
+```js
+const enhance = compose(
+  withState(/*...args*/),
+  debug, // 在這裡列印出 props
+  mapProps(/*...args*/),
+  pure
+)
+```
+
 
 ## 誰在使用 Recompose
 如果你的公司或是專案使用 Recompose，請透過[編輯](https://github.com/acdlite/recompose/wiki/Sites-Using-Recompose/_edit) wiki 頁面自行新增到[官方用戶名單](https://github.com/acdlite/recompose/wiki/Sites-Using-Recompose)。
