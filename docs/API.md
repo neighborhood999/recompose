@@ -335,7 +335,13 @@ withReducer<S, A>(
 
 類似於 `withState()`，但是使用 reducer function 來更新 state。一個 reducer 是一個 function，接受一個 state 和一個 action，並回傳一個新的 state。
 
-傳送兩個額外的 prop 到 base component：一個 state 的值和一個 dispatch 方法。dispatch 方法傳送一個 action 到 reducer 並回傳計算後的新 state。
+傳送兩個額外的 prop 到 base component：一個 state 的值和一個 dispatch 方法。以下有 dispatch 方法的說明：
+
+```js
+dispatch(action: Object, ?callback: Function): void
+```
+
+在新的 state 被應用後，它傳送一個 action 到 reducer。它也接受一個第二個可選的參數，一個 callback function 與一個新的 state 作為它唯一的參數。
 
 ### `branch()`
 
@@ -525,6 +531,21 @@ lifecycle(
 一個 [`React.Component()`](https://facebook.github.io/react/docs/react-api.html#react.component) 版本的 higher-order component。它支援完整的 `Component` API，除了 `render()` 方法，透過 default 來被實作（如果被指定 override 的話，錯誤將會被 log 在 console）。在你需要存取 lifecycle 方法的情況下，你應該使用這個 helper 作為一個方案。
 
 透過 `setState` 任何 state 可以在 lifecycle 方法做改變，將 state 作為 props 被 wrap 到 component 被傳遞。
+
+範例：
+```js
+const PostsList = ({ posts }) => (
+  <ul>{posts.map(p => <li>{p.title}</li>)}</ul>
+)
+
+const PostsListWithData = lifecycle({
+  componentDidMount() {
+    fetchPosts().then(posts => {
+      this.setState({ posts });
+    })
+  }
+})(PostsList);
+```
 
 範例：
 ```js
