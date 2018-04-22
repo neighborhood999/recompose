@@ -159,7 +159,7 @@ const ClassComponent = toClass(FunctionComponent)
 
 ## 支援 Flow
 
-[閱讀文件](types)
+[閱讀文件](docs/flow.md)
 
 ## Translation
 

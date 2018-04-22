@@ -3,4 +3,5 @@ release
 lib
 coverage
 .vscode
+yarn-error.log
 _book

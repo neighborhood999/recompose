@@ -562,6 +562,21 @@ const PostsListWithData = lifecycle({
 })(PostsList);
 ```
 
+Example:
+```js
+const PostsList = ({ posts }) => (
+  <ul>{posts.map(p => <li>{p.title}</li>)}</ul>
+)
+
+const PostsListWithData = lifecycle({
+  componentDidMount() {
+    fetchPosts().then(posts => {
+      this.setState({ posts });
+    })
+  }
+})(PostsList);
+```
+
 ### `toClass()`
 
 ```js
@@ -711,12 +726,21 @@ const ABC = nest(A, B, C)
 ### `hoistStatics()`
 
 ```js
-hoistStatics(hoc: HigherOrderComponent): HigherOrderComponent
+hoistStatics(
+  hoc: HigherOrderComponent,
+  blacklist: Object
+): HigherOrderComponent
 ```
 
 增強一個 higher-order component，以便在使用時它複製非 react static 屬性從 base component 到新的 component。這對於當使用 Recompose 和像是 Relay 之類的 library 的時候非常有用。
 
 注意這只 hoist _非 react_ 的 static 屬性。以下的 static 屬性將不會被 hoist：`childContextTypes`、`contextTypes`、`defaultProps`、`displayName`、`getDefaultProps`、`mixins`、`propTypes` 和 `type`。以下原生的 static 方法也會被忽略：`name`、`length`、`prototype`、`caller`、`arguments` 和 `arity`。
+
+You can exclude more static properties by passing them as `blacklist` object:
+
+```js
+hoistStatics(EnhancedComponent, { foo: true })(BaseComponent) // Exclude `foo`
+```
 
 ## Observable utilities
 
