@@ -1,11 +1,11 @@
-# Flow support for recompose
+# Flow 支援 recompose
 
-## How it works
+## 它是如何運作的
 
-In most cases all you need is to declare a props type of enhanced Component.
-Flow will infer all other types you need.
+在大部分情況下，你需要宣告一個被 enhance 的 Component 的 prop type。
+Flow 將會推斷所有其他你需要的類型。
 
-Example:
+例如：
 
 ```javascript
 import type { HOC } from 'recompose';
@@ -29,64 +29,64 @@ export default enhance(baseComponent);
 
 ```
 
-See it in action.
+觀看 recompose flow 的運作。
 
 ![recompose-flow](https://user-images.githubusercontent.com/5077042/28116959-0c96ae2c-6714-11e7-930e-b1454c629908.gif)
 
-## How to start
+## 如何開始使用
 
-The easiest way is to start from example.
+最簡單的方式就是從範例開始。
 
-Look at [this](http://grader-meets-16837.netlify.com/) app [source](../types/flow-example)
+查看[這個](http://grader-meets-16837.netlify.com/)應用程式的[原始碼](../types/flow-example)
 
 
-## Support
+## 支援
 
-Type definitions of recompose HOCs are splitted into 2 parts.
+recompose 的 HOCs 的類型定義被分為兩個部分。
 
-### Part 1 - HOCs with good flow support
+### Part 1 - HOCs 與良好的 flow 支援
 
-In most cases you can use them without big issues.
-Type inference and errors detection works near well.
+在大多數情況下，你使用它們不會有什麼大問題。
+類型推斷和錯誤檢測可以良好的運作。
 
-These HOCs are: *defaultProps, mapProps, withProps, withStateHandlers, withHandlers, pure, onlyUpdateForKeys, shouldUpdate, renderNothing, renderComponent, branch, withPropsOnChange, onlyUpdateForPropTypes, toClass, withContext, getContext, setStatic, setPropTypes, setDisplayName*
+這些 HOCs 是：*defaultProps, mapProps, withProps, withStateHandlers, withHandlers, pure, onlyUpdateForKeys, shouldUpdate, renderNothing, renderComponent, branch, withPropsOnChange, onlyUpdateForPropTypes, toClass, withContext, getContext, setStatic, setPropTypes, setDisplayName*
 
-#### Known issues for "good" HOCs
+#### 「良好」 HOCs 的已知問題
 
-see `test_mapProps.js` - inference work but type errors are not detected in hocs
+參考 `test_mapProps.js` - 在 HOCs 的類型推斷不會檢測到類型的錯誤
 
-### Part 2 - other HOCs
+### Part 2 - 其他 HOCs
 
-To use these HOCs - you need to provide type information (no automatic type inference).
+要使用這些 HOCs - 你需要提供類型資訊（不是類型自動推斷）。
 You must be a good voodoo dancer.
 
-See `test_voodoo.js` for the idea.
+參考 `test_voodoo.js` 的想法。
 
-Some recomendations:
+一些建議：
 
-- *flattenProp,renameProp, renameProps* can easily be replaced with _withProps_
-- *withReducer, withState* -> use _withStateHandlers_ instead
-- _lifecycle_ -> you don't need recompose if you need a _lifecycle_, just use React class instead
-- _mapPropsStream_ -> see `test_mapPropsStream.js`
+- *flattenProp,renameProp, renameProps* 可以輕鬆的被 _withProps_ 替換
+- *withReducer, withState* -> 使用 _withStateHandlers_ 替代
+- _lifecycle_ -> 如果需要一個 _lifecycle_，你不需要 recompose，而是直接使用 React 的 class
+- _mapPropsStream_ -> 參考 `test_mapPropsStream.js`
 
-#### Known issues for above HOCs
+#### 上述 HOCs 已知的問題
 
-See `test_voodoo.js`, `test_mapPropsStream.js`
+參考 `test_voodoo.js`、`test_mapPropsStream.js`
 
 ### Utils
 
 *getDisplayName, wrapDisplayName, shallowEqual,isClassComponent, createSink, componentFromProp, nest, hoistStatics.*
 
-### Articles
+### 文章
 
 [Typing Higher-order Components in Recompose With Flow](https://medium.com/flow-type/flow-support-in-recompose-1b76f58f4cfc)
 
-### Faq
+### 常見問題
 
-Why to use existential type with `HOC<*, Blbla>` isn't it possible to avoid this?
+為什麼使用 `HOC <*，Blbla>` 的存在類型不可避免這種情況？
 
-*I tried to use type alias but haven't found how to make it work.*
+*我嘗試使用類型別名，但還沒有找到如何讓他運作。*
 
-## Thanks
+## 致謝
 
-Big thanks to [@gcanti](https://github.com/gcanti) for his work on PR [#241](https://github.com/acdlite/recompose/pull/241), it was nice and clear base for current definitions.
+特別致謝 [@gcanti](https://github.com/gcanti) 在 PR [#241](https://github.com/acdlite/recompose/pull/241) 的貢獻，對於目前的定義，它是相當明確的基礎。
