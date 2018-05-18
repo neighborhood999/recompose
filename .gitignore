@@ -1,0 +1,7 @@
+node_modules
+release
+lib
+coverage
+.vscode
+yarn-error.log
+_book
