@@ -251,7 +251,7 @@ withState(
 ): HigherOrderComponent
 ```
 
-傳送兩個額外的 props 到 base component：一個 state 和一個 function 來更新 state 的值。state updateer 具有以下的 signature：
+傳送兩個額外的 props 到 base component：一個 state 和一個 function 來更新 state 的值。state updater 具有以下的 signature：
 
 ```js
 stateUpdater<T>((prevValue: T) => T, ?callback: Function): void
